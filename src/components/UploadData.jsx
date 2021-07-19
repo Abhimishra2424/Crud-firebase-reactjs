@@ -19,7 +19,7 @@ import { DeleteData } from "../databaseDriver";
 
 const useStyles = makeStyles(Styles);
 
-export default function UploadData({ UserData }) {
+export default function UploadData({ UserData, setFetched }) {
   const classes = useStyles();
   const [currentId, setCurrnetId] = useState("");
 
@@ -54,6 +54,7 @@ export default function UploadData({ UserData }) {
           color="secondary"
           onClick={() => {
             DeleteData({ id: currentId });
+            setFetched(false);
             handleClose();
           }}
         >
@@ -64,7 +65,7 @@ export default function UploadData({ UserData }) {
   );
 
   return (
-    <div>
+    <div className={classes.UploadDataBox}>
       <AlertDialog
         open={open}
         DialogContent={DialogContent}
@@ -89,7 +90,7 @@ export default function UploadData({ UserData }) {
                 <IconButton
                   color="primary"
                   className={classes.editBtn}
-                  onClick={() => console.log("edit")}
+                  // onClick={() => }
                 >
                   <EditIcon />
                 </IconButton>

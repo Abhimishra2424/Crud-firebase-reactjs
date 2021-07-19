@@ -8,6 +8,14 @@ export const Styles = {
     height: "88vh",
   },
   // uploaded data
+
+  UploadDataBox: {
+    padding: "16px",
+    minHeight: "327px",
+    maxHeight: "327px",
+    overflowY: "auto",
+  },
+
   CardData: {
     position: "relative",
     textTransfrom: "capitalize",

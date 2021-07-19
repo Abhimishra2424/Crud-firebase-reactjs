@@ -12,7 +12,11 @@ import {
 import { Styles } from "./style";
 import RenderInputText from "./common";
 import RenderSelect from "./RenderSelect";
-import { addFirebaseData, getFirebaseData } from "../databaseDriver";
+import {
+  addFirebaseData,
+  getFirebaseData,
+  getUpdateSnapData,
+} from "../databaseDriver";
 import { useEffect } from "react";
 import UploadData from "./UploadData";
 
@@ -52,7 +56,6 @@ export default function Form() {
 
     // add data to firebase
     addFirebaseData(data);
-    console.log("data", data);
 
     // reset from
     setData({
@@ -61,6 +64,7 @@ export default function Form() {
       email: "",
       gender: "",
     });
+    getUpdateSnapData({ runOnUpdate: setFetched(false) });
   };
 
   useEffect(() => {
@@ -146,7 +150,7 @@ export default function Form() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={5}>
-                <UploadData UserData={uploadData} />
+                <UploadData UserData={uploadData} setFetched={setFetched} />
               </Grid>
             </Grid>
           </Paper>

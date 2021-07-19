@@ -15,18 +15,23 @@ export const getFirebaseData = ({ setUploadData }) => {
 
   db.collection(collectiondata)
     .get()
-    .then((res_array) =>
+    .then((res_array) => {
       res_array.forEach((doc) => {
         item = doc.data();
         item.id = doc.id;
         array.push(item);
-        setUploadData(array);
-        console.log("doc", item, doc.id);
-      })
-    );
+      });
+      setUploadData(array);
+    });
 };
 
 // deleting data
 export const DeleteData = ({ id }) => {
   db.collection(collectiondata).doc(id).delete();
+};
+
+// get snap update data
+
+export const getUpdateSnapData = ({ runOnUpdate }) => {
+  db.collection(collectiondata).onSnapshot(() => runOnUpdate);
 };
