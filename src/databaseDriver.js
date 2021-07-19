@@ -26,12 +26,19 @@ export const getFirebaseData = ({ setUploadData }) => {
 };
 
 // deleting data
-export const DeleteData = ({ id }) => {
+export const DeleteData = ({ id }) =>
   db.collection(collectiondata).doc(id).delete();
-};
 
 // get snap update data
 
-export const getUpdateSnapData = ({ runOnUpdate }) => {
+export const getUpdateSnapData = ({ runOnUpdate }) =>
   db.collection(collectiondata).onSnapshot(() => runOnUpdate);
+
+// updata filed to fill by cuurent id
+export const getFirebseCollectionDataByID = ({ id }) => {
+  return db.collection(collectiondata).doc(id).get();
+};
+
+export const UpdateFirebseCollectionDataByID = ({ id, data }) => {
+  return db.collection(collectiondata).doc(id).update(data);
 };

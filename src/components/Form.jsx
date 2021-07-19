@@ -16,6 +16,7 @@ import {
   addFirebaseData,
   getFirebaseData,
   getUpdateSnapData,
+  UpdateFirebseCollectionDataByID,
 } from "../databaseDriver";
 import { useEffect } from "react";
 import UploadData from "./UploadData";
@@ -35,6 +36,9 @@ export default function Form() {
   const [fetched, setFetched] = useState(false);
   // for firebase database
   const [uploadData, setUploadData] = useState([]);
+  // for update
+  const [isUpdateAction, setIsUpdateAction] = useState(false);
+  const [updateId, setUpdateId] = useState("");
 
   const handleChange = ({ target }) => {
     const name = target.name;
@@ -54,8 +58,10 @@ export default function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // add data to firebase
-    addFirebaseData(data);
+    //  edit update and add to firebase same think,,,   // add data to firebase
+    isUpdateAction
+      ? UpdateFirebseCollectionDataByID({ id: updateId, data: data })
+      : addFirebaseData(data);
 
     // reset from
     setData({
@@ -72,7 +78,7 @@ export default function Form() {
       getFirebaseData({ setUploadData });
       setFetched(true);
     }
-  }, [fetched]);
+  }, [fetched, uploadData.length]);
 
   return (
     <Grid container className={classes.formContainer}>
@@ -150,7 +156,13 @@ export default function Form() {
                 </Card>
               </Grid>
               <Grid item xs={12} sm={5}>
-                <UploadData UserData={uploadData} setFetched={setFetched} />
+                <UploadData
+                  UserData={uploadData}
+                  setFetched={setFetched}
+                  setData={setData}
+                  setIsUpdateAction={setIsUpdateAction}
+                  setUpdateId={setUpdateId}
+                />
               </Grid>
             </Grid>
           </Paper>

@@ -15,11 +15,17 @@ import EditIcon from "@material-ui/icons/Edit";
 import ErrorIcon from "@material-ui/icons/Error";
 import AlertDialog from "./AlertsDialog";
 import { red } from "@material-ui/core/colors";
-import { DeleteData } from "../databaseDriver";
+import { DeleteData, getFirebseCollectionDataByID } from "../databaseDriver";
 
 const useStyles = makeStyles(Styles);
 
-export default function UploadData({ UserData, setFetched }) {
+export default function UploadData({
+  UserData,
+  setFetched,
+  setData,
+  setIsUpdateAction,
+  setUpdateId,
+}) {
   const classes = useStyles();
   const [currentId, setCurrnetId] = useState("");
 
@@ -90,7 +96,15 @@ export default function UploadData({ UserData, setFetched }) {
                 <IconButton
                   color="primary"
                   className={classes.editBtn}
-                  // onClick={() => }
+                  onClick={() => {
+                    getFirebseCollectionDataByID({ id: item.id }).then(
+                      (data) => {
+                        setData(data.data());
+                        setUpdateId(item.id);
+                        setIsUpdateAction(true);
+                      }
+                    );
+                  }}
                 >
                   <EditIcon />
                 </IconButton>
