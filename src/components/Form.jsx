@@ -12,7 +12,9 @@ import {
 import { Styles } from "./style";
 import RenderInputText from "./common";
 import RenderSelect from "./RenderSelect";
-import { addFirebaseData } from "../databaseDriver";
+import { addFirebaseData, getFirebaseData } from "../databaseDriver";
+import { useEffect } from "react";
+import UploadData from "./UploadData";
 
 const useStyles = makeStyles(Styles);
 
@@ -26,6 +28,9 @@ export default function Form() {
   });
 
   const [error, setError] = useState({});
+  const [fetched, setFetched] = useState(false);
+  // for firebase database
+  const [uploadData, setUploadData] = useState([]);
 
   const handleChange = ({ target }) => {
     const name = target.name;
@@ -58,9 +63,16 @@ export default function Form() {
     });
   };
 
+  useEffect(() => {
+    if (!fetched) {
+      getFirebaseData({ setUploadData });
+      setFetched(true);
+    }
+  }, [fetched]);
+
   return (
     <Grid container className={classes.formContainer}>
-      <Grid item xs={12} sm={9}>
+      <Grid item xs={12} sm={10}>
         {/* Formc container */}
         <form onSubmit={handleSubmit}>
           <Paper component={Box} mb={1} p={2}>
@@ -133,7 +145,9 @@ export default function Form() {
                   </Box>
                 </Card>
               </Grid>
-              <Grid item xs={12} sm={5}></Grid>
+              <Grid item xs={12} sm={5}>
+                <UploadData UserData={uploadData} />
+              </Grid>
             </Grid>
           </Paper>
         </form>
