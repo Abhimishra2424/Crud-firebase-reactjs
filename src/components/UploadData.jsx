@@ -15,11 +15,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import ErrorIcon from "@material-ui/icons/Error";
 import AlertDialog from "./AlertsDialog";
 import { red } from "@material-ui/core/colors";
+import { DeleteData } from "../databaseDriver";
 
 const useStyles = makeStyles(Styles);
 
 export default function UploadData({ UserData }) {
   const classes = useStyles();
+  const [currentId, setCurrnetId] = useState("");
 
   // for dialog
   const [open, setOpen] = useState(false);
@@ -50,7 +52,10 @@ export default function UploadData({ UserData }) {
           style={{ marginLeft: "16px" }}
           variant="contained"
           color="secondary"
-          onClick={() => console.log("delete")}
+          onClick={() => {
+            DeleteData({ id: currentId });
+            handleClose();
+          }}
         >
           Delete
         </Button>
@@ -74,7 +79,10 @@ export default function UploadData({ UserData }) {
                 <IconButton
                   color="secondary"
                   className={classes.deleteBtn}
-                  onClick={() => handleOpen()}
+                  onClick={() => {
+                    handleOpen();
+                    setCurrnetId(item.id);
+                  }}
                 >
                   <DeleteIcon />
                 </IconButton>

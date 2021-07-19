@@ -25,3 +25,8 @@ export const getFirebaseData = ({ setUploadData }) => {
       })
     );
 };
+
+// deleting data
+export const DeleteData = ({ id }) => {
+  db.collection(collectiondata).doc(id).delete();
+};
