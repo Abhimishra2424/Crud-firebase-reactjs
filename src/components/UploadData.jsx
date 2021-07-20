@@ -16,6 +16,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import AlertDialog from "./AlertsDialog";
 import { red } from "@material-ui/core/colors";
 import { DeleteData, getFirebseCollectionDataByID } from "../databaseDriver";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles(Styles);
 
@@ -61,6 +62,7 @@ export default function UploadData({
           onClick={() => {
             DeleteData({ id: currentId });
             setFetched(false);
+            toast.success("Deleted Successfully");
             handleClose();
           }}
         >
@@ -78,49 +80,58 @@ export default function UploadData({
         handleClose={handleClose}
       />
       <Grid container>
-        {UserData.map((item, i) => (
-          <Grid item xs={12} key={i}>
-            <Card className={classes.CardData}>
-              <CardContent className={classes.CardContent}>
-                {/* two buttons */}
-                <IconButton
-                  color="secondary"
-                  className={classes.deleteBtn}
-                  onClick={() => {
-                    handleOpen();
-                    setCurrnetId(item.id);
-                  }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-                <IconButton
-                  color="primary"
-                  className={classes.editBtn}
-                  onClick={() => {
-                    getFirebseCollectionDataByID({ id: item.id }).then(
-                      (data) => {
-                        setData(data.data());
-                        setUpdateId(item.id);
-                        setIsUpdateAction(true);
-                      }
-                    );
-                  }}
-                >
-                  <EditIcon />
-                </IconButton>
-                <Typography variant="body1" color="textPrimary">
-                  {`${item.firstName} ${item.lastName}`}
-                </Typography>
-                <Typography variant="body2" color="textPrimary">
-                  {item.email}
-                </Typography>
-                <Typography variant="body2" color="textPrimary">
-                  {item.gender}
-                </Typography>
-              </CardContent>
-            </Card>
+        {UserData.length === 0 ? (
+          <Grid>
+            <Typography align="center"> No Data To Show</Typography>
+            <Typography align="center" variant="subtitle2" color="error">
+              Plz Add data throgh Form
+            </Typography>
           </Grid>
-        ))}
+        ) : (
+          UserData.map((item, i) => (
+            <Grid item xs={12} key={i}>
+              <Card className={classes.CardData}>
+                <CardContent className={classes.CardContent}>
+                  {/* two buttons */}
+                  <IconButton
+                    color="secondary"
+                    className={classes.deleteBtn}
+                    onClick={() => {
+                      handleOpen();
+                      setCurrnetId(item.id);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton
+                    color="primary"
+                    className={classes.editBtn}
+                    onClick={() => {
+                      getFirebseCollectionDataByID({ id: item.id }).then(
+                        (data) => {
+                          setData(data.data());
+                          setUpdateId(item.id);
+                          setIsUpdateAction(true);
+                        }
+                      );
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <Typography variant="body1" color="textPrimary">
+                    {`${item.firstName} ${item.lastName}`}
+                  </Typography>
+                  <Typography variant="body2" color="textPrimary">
+                    {item.email}
+                  </Typography>
+                  <Typography variant="body2" color="textPrimary">
+                    {item.gender}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))
+        )}
       </Grid>
     </div>
   );

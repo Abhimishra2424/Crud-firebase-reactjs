@@ -20,6 +20,7 @@ import {
 } from "../databaseDriver";
 import { useEffect } from "react";
 import UploadData from "./UploadData";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles(Styles);
 
@@ -34,6 +35,8 @@ export default function Form() {
 
   const [error, setError] = useState({});
   const [fetched, setFetched] = useState(false);
+
+
   // for firebase database
   const [uploadData, setUploadData] = useState([]);
   // for update
@@ -71,6 +74,9 @@ export default function Form() {
       gender: "",
     });
     getUpdateSnapData({ runOnUpdate: setFetched(false) });
+    isUpdateAction
+      ? toast.warning("Updated Successfully")
+      : toast.success("Added Successfully");
   };
 
   useEffect(() => {
